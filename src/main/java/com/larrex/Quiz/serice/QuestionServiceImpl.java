@@ -2,7 +2,9 @@ package com.larrex.Quiz.serice;
 
 import com.larrex.Quiz.entity.Question;
 import com.larrex.Quiz.entity.Quiz;
+import com.larrex.Quiz.repository.QuestionRepository;
 import com.larrex.Quiz.repository.QuizRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -17,33 +20,24 @@ public class QuestionServiceImpl implements QuestionService{
     @Autowired
     QuizRepository quizRepository;
 
-    @Override
-    public Question updateQuestion(Long quizId, Question question) {
-        return null;
-    }
+    @Autowired
+    QuestionRepository questionRepository;
 
     @Override
-    public void deleteQuestion(Long quizId, Long questionId) {
+    public Question updateQuestion(Question question) {
 
-        Quiz quiz = findQuestion(quizId);
+        Question oldQuestion = questionRepository.findById(question.getId()).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"No question found with id: "+ question.getId()));
 
+        BeanUtils.copyProperties(question,oldQuestion);
 
-        for (int i = 0; i<=quiz.getQuestions().size(); i++){
+        return questionRepository.save(oldQuestion);
+    }
 
-            if (i == questionId){
+    @Override
+    public void deleteQuestion(Long questionId) {
 
-                quiz.getQuestions().remove(i);
-
-            }
-
-        }
-
-        quizRepository.save(quiz);
+        questionRepository.deleteById(questionId);
 
     }
 
-    private Quiz findQuestion(Long quizId){
-
-       return quizRepository.findById(quizId).orElseThrow(()-> new ResponseStatusException( HttpStatus.NOT_FOUND,"No quiz found with id: "+quizId));
-    }
 }

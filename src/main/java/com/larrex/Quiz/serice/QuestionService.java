@@ -6,8 +6,8 @@ public interface QuestionService {
 
     //no need for get question and post question
 
-    Question updateQuestion(Long QuizId,Question question);
+    Question updateQuestion(Question question);
 
-    void deleteQuestion(Long QuizId,Long QuestionId);
+    void deleteQuestion(Long QuestionId);
 
 }
