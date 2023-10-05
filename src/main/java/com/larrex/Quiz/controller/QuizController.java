@@ -1,14 +1,13 @@
 package com.larrex.Quiz.controller;
 
-import com.larrex.Quiz.entity.Quiz;
-import com.larrex.Quiz.entity.QuizCreateResponse;
-import com.larrex.Quiz.entity.QuizWrapper;
-import com.larrex.Quiz.entity.UpdateQuiz;
+import com.larrex.Quiz.entity.*;
 import com.larrex.Quiz.serice.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/quiz/")
@@ -50,5 +49,10 @@ public class QuizController {
         return new ResponseEntity<>("Deleted",HttpStatus.OK);
     }
 
+    @GetMapping("answer/{quizId}")
+    public ResponseEntity<List<Answer>> getAnswers(@PathVariable Long quizId){
+
+        return new ResponseEntity<List<Answer>>(quizService.getAnswer(quizId),HttpStatus.OK);
+    }
 
 }

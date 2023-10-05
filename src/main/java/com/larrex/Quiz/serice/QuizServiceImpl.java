@@ -63,6 +63,22 @@ public class QuizServiceImpl implements QuizService{
 
     }
 
+    @Override
+    public List<Answer> getAnswer(Long quizId) {
+
+        Quiz quiz = findQuizById(quizId);
+
+        List<Answer> answers = new ArrayList<>();
+
+        for (Question question : quiz.getQuestions()){
+
+            answers.add(new Answer(question.getTitle(),question.getRightAnswer()));
+
+        }
+
+        return answers;
+    }
+
     private Quiz findQuizById(Long id){
 
         return  quizRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"No Quiz Found With ID :"+id));

@@ -1,9 +1,8 @@
 package com.larrex.Quiz.serice;
 
-import com.larrex.Quiz.entity.Quiz;
-import com.larrex.Quiz.entity.QuizCreateResponse;
-import com.larrex.Quiz.entity.QuizWrapper;
-import com.larrex.Quiz.entity.UpdateQuiz;
+import com.larrex.Quiz.entity.*;
+
+import java.util.List;
 
 public interface QuizService {
 
@@ -15,5 +14,6 @@ public interface QuizService {
 
     void delete(Long id);
 
+    List<Answer> getAnswer(Long quizId);
 
 }
